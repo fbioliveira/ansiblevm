@@ -1,0 +1,6 @@
+- name: Playbook 06
+  hosts: web
+  tasks:
+    - name: Primeiro passo
+      ansible.builtin.debug:
+        msg: Ola tudo bem

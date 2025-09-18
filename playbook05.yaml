@@ -1,0 +1,25 @@
+- name: Playbook 5
+  hosts: web
+  tasks:
+    - name: Using shell in echo items
+      ansible.builtin.shell:
+        cmd: echo This is my item {{ item }}
+      loop:
+        - one
+        - two
+      register: other_echo_result
+    
+    - name: Show stdout from previews task (all objects)
+      ansible.builtin.debug:
+        var: other_echo_result['results'][{{ item }}]['stdout']
+      loop:
+        - 0
+        - 1
+    
+    - name: Show debug with message
+      ansible.builtin.debug:
+        msg: "{{ item }}"
+      loop:
+        - "{{ other_echo_result['results'][0]['stdout'] }}"
+        - "{{ other_echo_result['results'][1]['stdout'] }}"
+      
