@@ -1,0 +1,11 @@
+- name: Configurar usuario
+  hosts: web
+  tasks:
+    - name: Usuario newbie com uid 4000
+      user:
+        name: newbie
+        uid: 5000
+        state: present
+    - name: Reboot machine
+      ansible.builtin.reboot:
+        

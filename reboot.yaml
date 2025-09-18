@@ -1,0 +1,6 @@
+- name: Reiniciar maquina remota
+  hosts: web
+  tasks:
+    - name: Reboot
+      ansible.builtin.reboot:
+        

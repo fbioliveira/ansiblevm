@@ -1,0 +1,13 @@
+http_server: apache2
+php: php
+contain_line: Funcionou!!!! Copiou!!!
+servicos_started:
+  - name: firewalld
+    enabled: true
+    state: started
+  - name: apache2
+    enabled: true
+    state: stopped
+  - name: mysql
+    enabled: true
+    state: stopped

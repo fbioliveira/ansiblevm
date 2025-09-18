@@ -1,0 +1,54 @@
+- name: Install and start Apache HTTPD
+  hosts: web
+  vars_files:
+    - host_vars/vars.yaml
+  tasks:
+
+    - name: Install {{ http_server }} and {{ php }}
+      ansible.builtin.apt:
+        name:
+          - "{{ http_server }}"
+          - php-mysql
+          - firewalld
+          - mysql-server
+        state: latest
+      register: install_result
+      
+    - ansible.builtin.debug:
+        var: install_result
+
+    - name: Remove file index.html
+      ansible.builtin.file:
+        path: /var/www/html/index.html
+        state: absent
+    
+    - name: correct index is present
+      ansible.builtin.copy:
+        src: files/index.php
+        dest: /var/www/html/index.php
+    
+    - name: Enable services
+      ansible.builtin.service:
+        name: "{{ item.name }}"
+        enabled: "{{ item.enabled }}"
+        state: "{{ item.state }}"
+      loop: "{{ servicos_started }}"
+        
+    - name: Firewalld permits http service
+      ansible.posix.firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+        immediate: yes
+    
+    - name: Verify if exist the line {{ contain_line }}
+      ansible.builtin.lineinfile:
+        path: /var/www/html/index.php
+        line: "{{ contain_line }}"
+        state: present
+    
+    - name: Connect to internet web server {{ ansible_host }}
+      ansible.builtin.uri:
+        url: http://{{ ansible_host }}:80
+        status_code:
+          - 200

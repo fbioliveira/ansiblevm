@@ -1,0 +1,12 @@
+- name: Install mysql db
+  hosts: web
+  tasks:
+    - name: Install mysql
+      ansible.builtin.apt:
+        name:
+          - mysql-server
+        state: latest
+    - name: Enable service mysql
+      ansible.builtin.service:
+        name: mysql
+        enabled: true
