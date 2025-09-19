@@ -1,0 +1,13 @@
+- name: Gathering Facts
+  hosts: web
+  tasks:
+    - name: Print all facts
+      ansible.builtin.debug:
+        # var: ansible_facts
+        msg: >
+          "{{ ansible_facts.ansible_local.custom.users }}"
+      # loop:
+      #   - ansible_facts.ansible_local.custom.packages
+      #   - ansible_facts.ansible_local.custom.users
+        #   The default IPV4 address of {{ ansible_facts.fqdn }}
+        #   is {{ ansible_facts.default_ipv4.address }}
