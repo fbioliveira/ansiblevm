@@ -26,3 +26,28 @@
         enabled: "{{ item.enabled }}"
         state: "{{ item.state }}"
       loop: "{{ servicos_started }}"
+    
+    - name: Firewalld permits http services
+      ansible.builtin.firewalld:
+        port: 80/tcp
+        permanent: true
+        state: enabled
+        immediate: yes
+    
+    - name: Remove file index.html
+      ansible.builtin.file:
+        path: /var/www/html/index.html
+        state: absent
+
+    - name: Verify if exists the line {{ contain_line }}
+      ansible.builtin.lineinfile:
+        path: /var/www/html/index.php
+        line: "{{ contain_line }}"
+        state: present
+
+    - name: Connect to internet web server {{ ansible_host }}
+      ansible.builtin.uri:
+        url: http://{{ ansible_host }}:80
+        status_code:
+          - 200
+      when: verify_http_200

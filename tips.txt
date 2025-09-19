@@ -1,0 +1,17 @@
+ansible-vault create secret.yaml
+ansible-vault create --vault-password-file=vault-pass-file secret.yaml
+ansible-playbook --vault-id @prompt playbook07.yaml
+ansible-playbook --vault-id filename playbook07.yaml
+ansible-playbook --syntax-check --ask-vault-pass playbook_create_users.yaml
+ansible-vault edit secret.yaml
+ansible-vault view secret.yaml
+
+chattr +i 'file'
+chattr -i 'file'
+1 - execute
+2 - write
+4 - read
+chmod -R 777 .
+ansible-vault encrypt filename --output=new_filename
+ansible-vault decrypt filename --output=new_filename
+ansible-vault rekey secret.yaml --new-vault-password-file

@@ -7,7 +7,7 @@ servicos_started:
     state: started
   - name: apache2
     enabled: true
-    state: stopped
+    state: started
   - name: mysql
     enabled: true
-    state: stopped
+    state: started

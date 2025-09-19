@@ -1,0 +1,10 @@
+- name: Create user account for all our servers
+  hosts: web
+  vars_files:
+    - host_vars/secret.yaml
+  become: true
+  tasks:
+    - name: Creating user from secret
+      ansible.builtin.user:
+        name: "{{ username }}"
+        password: "{{ pwhash }}"
